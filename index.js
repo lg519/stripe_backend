@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const cors = require("cors");
 const express = require("express");
 // TODO: add a stripe key
@@ -13,4 +15,4 @@ app.use(cors());
 //routes
 app.get("/", (req, res) => res.send("HEYAA"));
 //listen
-app.listen(8282, () => console.log("LISTENING AT PORT 8282"));
+app.listen(8282, () => console.log(`LISTENING AT PORT 8282`));
