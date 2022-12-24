@@ -5,7 +5,7 @@ const express = require("express");
 
 // TODO: add a stripe key
 const stripe = require("stripe")(`${process.env.STRIPE_API_SECRET_KEY}`);
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.post("/payment", (req, res) => {
   console.log(`PRICE: ${product.price}`);
 
   // ensures user does not get charged twice for the same product
-  const idempotencyKey = uuid();
+  const idempotencyKey = uuidv4();
 
   return stripe.customers
     .create({
@@ -35,7 +35,7 @@ app.post("/payment", (req, res) => {
           amount: product.price * 100, // prices in Stripe are in cents
           currency: "GBP",
           customer: customer.id,
-          recipt_email: customer.email,
+          receipt_email: customer.email,
           description: ` purchase of ${product.name}`,
         },
         { idempotencyKey }
